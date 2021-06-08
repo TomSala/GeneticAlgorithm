@@ -23,13 +23,13 @@ It’s difficult to handle strings in machine learning therefore I chose to conv
 This has been done using the music21 library developed and released by the MIT.
 
 ### Create the .midi files and associate the fitness
-To listen to the randomly created music I used the built-in function of music21 to create a midi file. Substantially is the reverse process of the encoding of the notes. After listening to the 10 musics I assigned to each of them a value, which is the fitness. I manually compiled the list with those values.
+To listen to the randomly created music I used the built-in function of music21 to create a midi file. Substantially it is the reverse process of encoding of the notes. After listening to the 10 melodies I assigned to each of them a value, the fitness. First I manually compiled the list with those values, then I built an automatic probabilistic evaluator.
 
 ### Find the two parents
 The goal is to find two songs whose fitness is high but don’t have to be necessarily the best two. Thus for each parent are drawn three numbers, each of them represents a song (0 is the first one and so on). Of this three songs I chose the one with the highest fitness. In this way I got my two parents.
 
 ### The crossover
-In biology two parents mix their DNA to generate a son. Here happens the same. The DNA of cellule is the sequence of notes of the song. How to mix the notes?
+In biology two parents mix their DNA to generate a child. Here happens the same. The DNA of cellule is the sequence of notes of the song. How to mix the notes?
 
 Let’s say these are the two chosen songs:
 
@@ -49,10 +49,10 @@ And now the swapping. The final result is:
 	[ 12 | 4 | 6 | 0 | 8 | 12 | 2 | 7 | 1 | 9 ] ---> Child 1
 	[ 10 | 6 | 4 | 8 | 2 | 11 | 1 | 9 | 4 | 6 ] ---> Child 2
 
-That’s it. Easy, isn’t it?
+Easy, isn’t it?
 
 ### The Mutation
-Well, normally a mutation is a changing of a value of one unit, positive or negative, that happens with a certain probability. But in this case we can use a trick. In fact we now that C (Do) sounds better with A (La) or E (Mi), so it makes more sense that the mutation changes the value so that the note beside it is two tones higher or lower. Let’s make an example.
+Well, normally a mutation is the changing of a value of one unit, positive or negative, that happens with a certain probability. But in this case we can use a trick. In fact we now that C (Do) sounds better with A (La) or E (Mi), so it makes more sense that the mutation changes the value so that the note beside it is two tones higher or lower. Let’s make an example.
 
 	['A4', 'F4', 'E4', 'D4', 'A4', 'A4', 'D4', 'A4', ‘G4', 'F4', 'G4', 'G4', 'A4', 'F4', 'E4', 'D4']
 
