@@ -3,16 +3,12 @@
 
 from music21 import *
 import random
-import time
-import os
-from valutatore import calcolo_fitness
 
-N_STEP = int(input("Numero di generazioni: "))
-CHECKPOINT = N_STEP / 2
+N_STEP = 5
 
 scala = ['C4','C#4','D','D#4','E','F','F#','G','G#','A','A#','B']
-
-INIZIO = time.time()
+musica = [0, 2, 4, 0, 0, 2, 4, 0, 4, 5, 7, 4, 5, 7, 7, 9]
+musica2 = [0, 2, 4, 0, 0, 2, 4, 0, 4, 5, 7, 4, 5, 7, 7, 9]
 
 def genera_lista():
     lista = []
@@ -20,7 +16,8 @@ def genera_lista():
         lista.append(random.randint(0,11))
     return lista
 
-def esporta(sequenza, nome_file, scala):
+def esporta(sequenza, nome_file):
+    scala = ['C4','C#4','D','D#4','E','F','F#','G','G#','A','A#','B']
     stream1 = stream.Stream()
     for nota in sequenza:
         stream1.append(note.Note(scala[nota]))
@@ -52,20 +49,20 @@ def mutazione(lista):
             lista[p_mutazione] -= 1
     return lista
 
-
 def genitori(popolazione, fitness):
-    tupla = []
-    for i in range(0, len(popolazione)):
-        tupla.append((fitness[i], popolazione[i]))
     def genitore(popolazione, fitness):
         poss_gen = []
-        for i in range(0,2):
+        for i in range(0,3):
             poss = random.randint(0,9)
-            poss_gen.append(tupla[poss])
-
-        poss_gen.sort()
-        poss_gen.reverse()
-        gen = poss_gen[0][1]
+            poss_gen.append(poss)
+        valori_fit = []
+        for scelta in poss_gen:
+            valori_fit.append(fitness[scelta])
+        valori_fit.sort()
+        valori_fit.reverse()
+        pos_gen = valori_fit[0]
+        pos_gen = fitness.index(pos_gen)
+        gen = popolazione[pos_gen] #popolazione[pos_gen1]
         return gen
     gen1 = genitore(popolazione, fitness)
     gen2 = genitore(popolazione, fitness)
@@ -86,73 +83,53 @@ def elitarismo(popolazione1, popolazione2, fitness1, fitness2):
     del popolazione2[indice_peggiore]
     del fitness2[indice_peggiore]
     sequenza_migliore = popolazione1[indice_migliore]
-    popolazione2.append(sequenza_migliore)
+    popolazione1.append(sequenza_migliore)
     fitness2.append(migliore)
     return popolazione2, fitness2
 
 #STEP 0: creazione popolazione di partenza e associazione fitness
 popolazione = []
+nomi_esportazione = []
 
 for i in range(0,10):
     popolazione.append(genera_lista())
 
+for i, m in enumerate(popolazione):
+    filename = str('m0 '+str(i)+'.midi')
+    nomi_esportazione.append(filename)
+    esporta(m, filename)
+
 fitness = []
 
-for melodia in popolazione:
-    valore_fitness = calcolo_fitness(melodia)
+for i, m in enumerate(nomi_esportazione):
+    msg = str('Fitness ' + str(m) + ' ')
+    valore_fitness = input(str(msg))
     fitness.append(valore_fitness)
 
 
-
-
 #STEP 1: elaborazione popolazione1 e associazione fitness1
-ora = time.time()
-
 for step in range(0, N_STEP):
     popolazione1 = []
-    test_gen = []
-    test_children = []
+    fitness1 = []
     for i in range(0,5):
         gen1, gen2 = genitori(popolazione, fitness)
-        test_gen.append(gen1)
-        test_gen.append(gen2)
         c1, c2 = crossover(gen1, gen2)
         c1 = mutazione(c1)
         c2 = mutazione(c2)
-        test_children.append(c1)
-        test_children.append(c2)
         popolazione1.append(c1)
         popolazione1.append(c2)
         
+    nomi_esportazione = []
+    for i, m in enumerate(popolazione1):
+        filename = 'm'+str(step+1)+' '+str(i)+'.midi'
+        nomi_esportazione.append(filename)
+        esporta(m, filename)
 
-    fitness1 = []
-
-    for melodia in popolazione:
-        valore_fitness = calcolo_fitness(melodia)
+    for i, m in enumerate(nomi_esportazione):
+        msg = str('Fitness ' + str(m) + ' ')      
+        valore_fitness = input(str(msg))
         fitness1.append(valore_fitness)
-
     
     popolazione1, fitness1 = elitarismo(popolazione, popolazione1, fitness, fitness1)
-
     popolazione = popolazione1
     fitness = fitness1
-
-    if step%1000 == 0:
-        print("Generazione numero", step)
-        print(time.time()-ora)
-        ora = time.time()
-        print()
-    if step%CHECKPOINT == 0 or step > N_STEP-2:
-        for i, m in enumerate(popolazione1):
-            filename = 'm'+str(step+1)+' '+str(i)+'.midi'
-            esporta(m, filename, scala)
-                
-    
-
-TEMPO_TOTALE = time.time()-INIZIO
-print("Ho impiegato "+str(TEMPO_TOTALE)+" secondi per "+str(N_STEP)+" step!")
-print("Media: "+str(TEMPO_TOTALE/N_STEP))
-
-
-
-
