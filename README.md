@@ -1,6 +1,6 @@
 # GeneticAlgorithm
 ## Requirements
-Needed:
+Required:
 1. music21:  to handle the music and sound part.
 2. random: to generate the random mutations and variations.
 
