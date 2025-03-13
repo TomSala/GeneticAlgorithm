@@ -52,11 +52,11 @@ And now the swapping. The final result is:
 Easy, isn’t it?
 
 ### The Mutation
-Well, normally a mutation is the changing of a value of one unit, positive or negative, that happens with a certain probability. But in this case we can use a trick. In fact we now that C (Do) sounds better with A (La) or E (Mi), so it makes more sense that the mutation changes the value so that the note beside it is two tones higher or lower. Let’s make an example.
+Well, normally a mutation is the shift of a value of one unit, positive or negative, that happens with a certain probability. But in this case we can use a trick. In fact we now that C (Do) sounds better with A (La) or E (Mi), so it makes more sense that the mutation changes the value so that the note beside it is two tones higher or lower. Let’s make an example.
 
 	['A4', 'F4', 'E4', 'D4', 'A4', 'A4', 'D4', 'A4', ‘G4', 'F4', 'G4', 'G4', 'A4', 'F4', 'E4', 'D4']
 
-Pick a random number: 6. In position 6 (counting the 0) we have an A (La). The mutation would be to change the note beside the A4 to a C4 or to an F4. To decide which of the two options is drawn a bool. True means increase and False decrease. The probability of mutation is set as a parameter of the function. I’d say that 5% is fair enough.
+Pick a random number: 6. In position 6 (counting the 0) we have an A (La). The mutation is a shift of the note beside the A4 to a C4 or to an F4. To decide which of the two options is drawn a bool. True means increase and False decrease. The probability of mutation is set as a parameter of the function. I’d say that 5% is fair enough.
 
 ### Revaluation
 Now that two children have been generated, they must be listened and evaluated in another fitness list named... let me think… fitness1!
