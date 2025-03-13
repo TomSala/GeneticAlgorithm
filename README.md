@@ -2,7 +2,7 @@
 ## Requirements
 Required:
 1. music21:  to handle the music and sound part.
-2. random: to generate the random mutations and variations.
+2. random: to generate random mutations and variations.
 
 Might be necessary in the future:
 1. Numpy: to handle easily the arrays.
@@ -11,13 +11,13 @@ Might be necessary in the future:
 ## The Algorithm
 ### Songs as lists
 The idea behind this genetic algorithm is pretty simple and replicates the biologic evolution in nature.
-The first step is to create a population of 20 individuals, that are the songs of 16 notes, and to attribute the fitness, that is an evaluation of their goodness. It may take a while, so a good bias is to select at first some songs that we know are good:
+The first step is to create a population of 20 individuals, that are short "songs" of 16 notes, and to calculate their fitness, that is an evaluation of their goodness. It may take a while, so a good bias is to select at first some songs that we know are good:
 
 ['A4', 'F4', 'E4', 'D4', 'A4', 'A4', 'D4', 'A4', ‘G4', 'F4', 'G4', 'G4', 'A4', 'F4', 'E4', 'D4']
 
 This is the transcription using the american notation of a very famous european song. Its fitness in a scale in range 0-10 is surely 10. I need 20 individuals - the more the merrier - so 10 will be created randomly and 10 will be some real songs whose fitness is 10/10.
 
-It’s difficult to handle strings in machine learning therefore I chose to convert each note of the Major Scale to an integer number for a total of 12 numbers. For instance the list above here would be: 
+It’s difficult to handle strings in machine learning therefore I've chosen to convert each note of the Major Scale to an integer number for a total of 12 numbers. For instance the list above here would be:
 [9, 5, 4, 2, 9, 9, 2, 9, 7, 5, 7, 7, 9, 5, 4, 2]
 
 This has been done using the music21 library developed and released by the MIT.
@@ -62,7 +62,7 @@ Pick a random number: 6. In position 6 (counting the 0) we have an A (La). The m
 Now that two children have been generated, they must be listened and evaluated in another fitness list named... let me think… fitness1!
 
 ### Elitism
-This word might be unknown. It describes the dominance of a society or system by an elite. In this case elite = the-song-with-the-highest-fitness. So the music in the children population with the lowest fitness is deleted and substituted by the one with the highest fitness in the parents’ population. Yes but in starting_population 10 arrays has the same fitness. And here is used another time the random module. Choose one and that’s it.
+This word might be unknown. It describes the dominance of a society or system by an elite. In this case, elite = the-song-with-the-highest-fitness. So the music in the children population with the lowest fitness is deleted and substituted by the one with the highest fitness in the parents’ population. Yes but in starting_population 10 arrays has the same fitness. And here is used another time the random module. Choose one and that’s it.
 
 #### Repeat, repeat, repeat…
 This process must be repeated as long as you don’t get acceptable music, evaluating each time the fitness. Each set of children is said generation.
@@ -70,4 +70,4 @@ This process must be repeated as long as you don’t get acceptable music, evalu
 ## Wanna improve the model?
 Of course you can. Even typing random keys the code would be better. Even though my Github is almost empty I have many projects and no much time to dedicate to this one. However I’m going to write a machine learning algorithm to evaluate the fitness automatically. And so an iterator. It would be great to train 100 generations in a couple of minutes!
 
-Tommaso Sala, 2nd July 2019
+Tommaso M. Sala, 2nd July 2019
